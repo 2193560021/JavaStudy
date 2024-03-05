@@ -15,14 +15,22 @@ class CCC{
     int i  = 10;
 
     int sum(){
-        return i + 10;
+        return getI() + 10;
+    }
+
+    int getI(){
+        return i;
     }
 }
 
 class DDD extends CCC{
     int i  = 20;
 
-    int sum(){
-        return i + 20;
+//    int sum(){
+//        return i + 20;
+//    }
+
+    int getI(){
+        return i;
     }
 }

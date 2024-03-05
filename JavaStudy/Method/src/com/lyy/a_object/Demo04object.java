@@ -3,6 +3,7 @@ package com.lyy.a_object;
 public class Demo04object {
     public static void main(String[] args) {
         Test t = new Test();
+        Test.sex = "123";
         t.test();
         t.test1();
 
