@@ -6,11 +6,16 @@ public class Demo18object {
 
         */
 
+        OuterClass outerClass = new OuterClass();
+        OuterClass.InnerClass innerClass = outerClass.new InnerClass();
+
 
 
     }
-    public class Test34{
+}
+
+class OuterClass{
+    public class InnerClass{
 
     }
-
 }
