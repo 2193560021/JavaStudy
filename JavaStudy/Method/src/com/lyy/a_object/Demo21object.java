@@ -1,6 +1,6 @@
 package com.lyy.a_object;
 
-public class Demo20object {
+public class Demo21object {
     public static void main(String[] args) {
 
         final String name = "LXX;";
@@ -15,13 +15,3 @@ public class Demo20object {
     }
 }
 
-class User20{
-    public final String name ;
-    User20(String name){
-        this.name = name;
-    }
-
-    public final void test(){
-
-    }
-}
