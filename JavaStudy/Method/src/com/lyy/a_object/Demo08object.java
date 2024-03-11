@@ -12,17 +12,17 @@ public class Demo08object {
     }
 }
 
-class Child extends User22{
+class Child extends User221{
 
     Child(String name) {
         super(name);
     }
 }
 
-class User22{
+class User221{
 
 
-    User22(String name) {
+    User221(String name) {
         System.out.println("user..." + name);
     }
 
