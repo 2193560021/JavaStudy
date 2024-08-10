@@ -263,3 +263,12 @@ select  kid_id, kid_name, kid_gender, kid_age,c.class_name
 from kids k left join classes c on k.c_id = c.class_id where c.class_id = 2;
 
 select * from v_test2;
+
+start transaction ;
+
+
+commit ;
+
+select @@transaction_isolation;
+
+set session transaction isolation level repeatable read ;
