@@ -1,37 +1,29 @@
 package com.atguigu.base;
 
-import com.mysql.jdbc.Driver;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Scanner;
 
-public class JDBCQuick {
+public class JDBCInjection {
     public static void main(String[] args) throws Exception {
-
         //1.注册驱动
-//        Class.forName("com.mysql.jdbc.Driver");
-        DriverManager.registerDriver(new Driver());
 
         //2.获取连接对象
-        String url = "jdbc:mysql://localhost:3306/atguigu?useUnicode=true&characterEncoding=utf-8&useSSL=false";
-        String userName = "root";
-        String passWord = "123456";
-        Connection connection = DriverManager.getConnection(url, userName, passWord);
+        Connection root = DriverManager.getConnection("jdbc:mysql://localhost:3306/atguigu?useUnicode=true&characterEncoding=utf-8&useSSL=false", "root", "123456");
 
-        //3.获取执行sql语句的对象
-        Statement statement = connection.createStatement();
+        //3.获取SQL语句对象
+        Statement statement = root.createStatement();
 
-        //4.编写sql语句
+        System.out.println("请输入姓名");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
 
-        String sql = "select * from t_emp";
-
+        //4.
+        String sql = "select * from t_emp where emp_name = '"+ name +"'";
         ResultSet resultSet = statement.executeQuery(sql);
 
-        String result =  resultSet.toString();
-
-        System.out.println(result);
 
         //5.处理结果
 
@@ -47,7 +39,8 @@ public class JDBCQuick {
         //6.释放资源（先开后关原则）
         resultSet.close();
         statement.close();
-        connection.close();
+        root.close();
+
 
     }
 }
