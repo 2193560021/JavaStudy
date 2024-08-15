@@ -12,7 +12,7 @@ public class JDBCQuick {
 
         //1.注册驱动
 //        Class.forName("com.mysql.jdbc.Driver");
-        DriverManager.registerDriver(new Driver());
+//        DriverManager.registerDriver(new Driver());
 
         //2.获取连接对象
         String url = "jdbc:mysql://localhost:3306/atguigu?useUnicode=true&characterEncoding=utf-8&useSSL=false";
