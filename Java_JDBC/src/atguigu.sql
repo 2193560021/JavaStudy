@@ -15,3 +15,12 @@ INSERT INTO `t_emp` (`emp_id`, `emp_name`, `emp_salary`, `emp_age`) VALUES (3, '
 INSERT INTO `t_emp` (`emp_id`, `emp_name`, `emp_salary`, `emp_age`) VALUES (4, '小鱼儿', 123.00000, 28);
 
 select * from t_emp;
+
+select * from t_emp where emp_id = 1;
+select * from t_emp where emp_age > 25;
+
+select count(*) from t_emp;
+
+INSERT INTO t_emp(emp_name, emp_salary, emp_age) values ();
+
+update t_emp set emp_salary = 2333 where emp_name = '刘璇';
