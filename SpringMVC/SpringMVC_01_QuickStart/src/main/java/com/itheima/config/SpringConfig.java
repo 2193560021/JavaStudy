@@ -9,11 +9,11 @@ import org.springframework.stereotype.Controller;
 //@ComponentScan({"com.itheima.service","com.itheima.dao"}
 // )
 
-@ComponentScan(value = "com.itheima"
-//        excludeFilters = @ComponentScan.Filter(
-//                type = FilterType.ANNOTATION,
-//                classes = Controller.class
-//        )
+@ComponentScan(value = "com.itheima",
+        excludeFilters = @ComponentScan.Filter(
+                type = FilterType.ANNOTATION,
+                classes = Controller.class
+        )
 )
 public class SpringConfig {
 
