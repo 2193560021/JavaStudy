@@ -1,50 +1,52 @@
 package com.itheima.controller;
 
 import com.itheima.domain.User;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
-@Controller
-@RequestMapping("/user")
+//@Controller
+//@ResponseBody
+@RestController
+@RequestMapping("/users")
 public class UserController {
 
-    @RequestMapping("/commonParam")
-    @ResponseBody
-    public String commonParam(String name, int age){
-        System.out.println("user save..." + name + age);
-        return "{module:user save}" + name;
-    }
 
 
-
-    @RequestMapping("/save")
-    @ResponseBody
-    public String save(){
-        System.out.println("user save...");
+    @PostMapping
+    public String save(@RequestBody User user){
+        System.out.println("user save..." + user);
         return "{module:user save}";
     }
 
-
-    @RequestMapping("/delete")
-    @ResponseBody
-    public String delete(){
-        System.out.println("user delete...");
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Integer id){
+        System.out.println("user delete..." + id);
         return "{module:user delete}";
     }
 
-
-
-    @RequestMapping("/listParamForJson")
-    @ResponseBody
-    public String listParamForJson(@RequestBody List<String> like){
-        System.out.println("user listParamForJson..." + like);
-        return "{module:user listParamForJson}";
+    @PutMapping
+    public String update(@RequestBody User user){
+        System.out.println("user update..." + user);
+        return "{module:user save}";
     }
+
+    @GetMapping("/{id}")
+    public String getById(@PathVariable Integer id){
+        System.out.println("user getById..." + id);
+        return "{module:user getById}";
+    }
+
+    @GetMapping
+    public String getAll(){
+        System.out.println("user getAll...");
+        return "{module:user getAll}";
+    }
+
+
 
 
 
@@ -54,4 +56,36 @@ public class UserController {
         System.out.println("user listParamForJson..." + user);
         return "{module:user listParamForJson}";
     }
+
+
+
+    @RequestMapping("/listPojoParamForJson")
+    @ResponseBody
+    public String listPojoParamForJson(@RequestBody List<User>  user){
+        System.out.println("user listParamForJson..." + user);
+        return "{module:user listParamForJson}";
+    }
+
+
+    @RequestMapping("/Datatime")
+    @ResponseBody
+    public String Datatime(@DateTimeFormat(pattern = "yyyy-mm-dd")Date date){
+        System.out.println("yyyy-mm-dd..." + date);
+        return "{yyyy-mm-dd...}" + date;
+    }
+
+
+    @RequestMapping("/toJumpPage")
+    public String toJumpPage(){
+        System.out.println("跳转页面 ");
+        return "index.html";
+    }
+
+    @RequestMapping("/commonParam")
+    @ResponseBody
+    public String commonParam(String name, int age){
+        System.out.println("user save..." + name + age);
+        return "{module:user save}" + name;
+    }
+
 }
