@@ -13,6 +13,7 @@ public class SpringMVCSupport extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/pages/**").addResourceLocations("/pages");
+
         super.addResourceHandlers(registry);
     }
 }
