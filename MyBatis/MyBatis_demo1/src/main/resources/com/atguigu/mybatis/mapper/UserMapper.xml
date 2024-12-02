@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.mapper.UserMapper">
+    <!--int insertUser();-->
+    <insert id="insertUser">
+        insert into t_user values(null,'ZhangSan','123',23,'female','2193560021@qq.com')
+    </insert>
+
+    <!--void updateUser()-->
+    <update id="updateUser">
+        update t_user set username = 'LYY' where id = 4
+    </update>
+
+<!--    查询必须设置resultType和resultMap-->
+    <select id="getUserById" resultType="com.atguigu.mybatis.pojo.User">
+        select * from t_user where id = 3
+    </select>
+
+    <select id="getAllUser" resultType="com.atguigu.mybatis.pojo.User">
+        select * from t_user
+    </select>
+</mapper>
