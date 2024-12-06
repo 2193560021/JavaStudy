@@ -123,7 +123,7 @@ public interface UserMapper {
 <!DOCTYPE mapper  
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
-<mapper namespace="com.atguigu.mybatis.mapper.UserMapper">  
+<mapper namespace="com.atguigu.mybatis.mapper.ParameterMapper">  
 	<!--int insertUser();-->  
 	<insert id="insertUser">  
 		insert into t_user values(null,'张三','123',23,'女')  

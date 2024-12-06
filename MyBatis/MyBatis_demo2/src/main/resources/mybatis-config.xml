@@ -11,7 +11,8 @@
     <properties resource="jdbc.properties"/>
 
     <typeAliases>
-        <typeAlias type="com.atguigu.mybatis.pojo.User"/>
+<!--        <typeAlias type="com.atguigu.mybatis.pojo.User"/>-->
+        <package name="com.atguigu.mybatis.pojo"/>
     </typeAliases>
     <!--设置连接数据库的环境
 
@@ -40,9 +41,9 @@
     </environments>
     <!--引入映射文件-->
     <mappers>
-<!--        <mapper resource="com.atguigu.mybatis.mapper.UserMapper.xml"/>-->
-        
+        <!--        <mapper resource="com.atguigu.mybatis.xml"/>-->
+
         <package name="com.atguigu.mybatis.mapper"/>
-        
+
     </mappers>
 </configuration>
