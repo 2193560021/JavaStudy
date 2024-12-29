@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest
 public class MybatisPlusTest {
@@ -53,4 +50,32 @@ public class MybatisPlusTest {
         System.out.println(i);
     }
 
+    @Test
+    public void testUpdate(){
+
+        User user = new User();
+
+        user.setId(1872272128544350209L);
+        user.setEmail("liuyuyng@gmail.com");
+
+        int i = userMapper.updateById(user);
+        System.out.println(i);
+    }
+
+    @Test
+    public void testSelect(){
+
+//        User user = userMapper.selectById(1L);
+//
+//        System.out.println(user);
+
+        List<Long> list = Arrays.asList(1L,2L,3L);
+
+        List<User> users = userMapper.selectBatchIds(list);
+
+        System.out.println(users);
+
+        userMapper.selectMapById();
+
+    }
 }
