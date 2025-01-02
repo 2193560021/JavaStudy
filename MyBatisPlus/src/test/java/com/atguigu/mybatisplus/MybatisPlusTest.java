@@ -75,7 +75,6 @@ public class MybatisPlusTest {
 
         System.out.println(users);
 
-        userMapper.selectMapById();
 
     }
 }
