@@ -11,3 +11,5 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations:
   type-aliases-package: com.atguigu.mybatisplus.pojo
+  # 扫描通用枚举
+  type-enums-package: com.atguigu.mybatisplus.enums
