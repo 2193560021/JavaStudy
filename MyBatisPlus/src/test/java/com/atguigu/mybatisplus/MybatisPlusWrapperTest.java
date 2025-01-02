@@ -3,6 +3,7 @@ package com.atguigu.mybatisplus;
 import com.atguigu.mybatisplus.mapper.UserMapper;
 import com.atguigu.mybatisplus.pojo.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -86,7 +87,22 @@ public class MybatisPlusWrapperTest {
 
     @Test
     public void test07(){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.inSql("id","select id from user where id <= 100");
+        List<User> users = userMapper.selectList(queryWrapper);
+        users.forEach(System.out::println);
 
+    }
+
+    @Test
+    public void test08(){
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.like("name","a")
+                .and(i -> i.gt("age",20).or().isNotNull("email"));
+        updateWrapper.set("name","小黑").set("email","AAA@gamil.com");
+        int update = userMapper.update(null, updateWrapper);
+
+        System.out.println(update);
     }
 
 }
