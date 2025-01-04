@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 public interface UserMapper extends BaseMapper<User> {
 
-//    Map<String, Object> selectMapById(Long id);
+    Map<String, Object> selectMapById(Long id);
 
     /**
      *
@@ -21,5 +21,8 @@ public interface UserMapper extends BaseMapper<User> {
      */
     Page<User> selectPageVo(@Param("page") Page<User> page,@Param("age") Integer age);
 
+    int deleteByAgeAndEmail(@Param("age") Integer age, @Param("email") String email);
+
+    int insertSelective(User user);
 
 }

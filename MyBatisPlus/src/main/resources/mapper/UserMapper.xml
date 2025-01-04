@@ -12,5 +12,31 @@
     <select id="selectPageVo" resultType="User">
         select id, name, age, email from user where age > #{age}
     </select>
+    <delete id="deleteByAgeAndEmail">
+        delete
+        from user
+        where age = #{age,jdbcType=NUMERIC}
+          AND email = #{email,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertSelective">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="age != null">age,</if>
+            <if test="email != null">email,</if>
+            <if test="sex != null">sex,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=NUMERIC},</if>
+            <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+            <if test="age != null">#{age,jdbcType=NUMERIC},</if>
+            <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="isDeleted != null">#{isDeleted,jdbcType=NUMERIC},</if>
+        </trim>
+    </insert>
 
 </mapper>
