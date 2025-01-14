@@ -14,9 +14,11 @@ public class MybatisPlusTest {
     @Autowired
     private UserMapper userMapper;
 
+
     @Test
     public void testSelectList(){
         List<User> users = userMapper.selectList(null);
+
 
         users.forEach(System.out::println);
     }
