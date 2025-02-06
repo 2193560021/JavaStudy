@@ -86,4 +86,5 @@ public class OneThousandUser extends ServiceImpl<UserMapper, User> implements IU
     public Result login(LoginFormDTO loginForm, HttpSession session) {
         return null;
     }
+
 }
