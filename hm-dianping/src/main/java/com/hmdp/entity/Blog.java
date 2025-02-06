@@ -36,6 +36,7 @@ public class Blog implements Serializable {
      * 商户id
      */
     private Long shopId;
+
     /**
      * 用户id
      */
@@ -50,6 +51,7 @@ public class Blog implements Serializable {
      */
     @TableField(exist = false)
     private String name;
+
     /**
      * 是否点赞过了
      */
