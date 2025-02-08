@@ -24,12 +24,12 @@ public class FollowController {
     private IFollowService followService;
 
     @PutMapping("/{id}/{isFollow}")
-    public Result follow(@PathVariable("id") Long id, Boolean isFollow) {
-        return followService.followShop(id, isFollow);
+    public Result follow(@PathVariable("id") Long followUserId, @PathVariable("isFollow") Boolean isFollow) {
+        return followService.follow(followUserId, isFollow);
     }
 
     @GetMapping("/or/not/{id}")
-    public Result isFollowShop(@PathVariable("id") Long id) {
-        return followService.isFollowShop(id);
+    public Result isFollow(@PathVariable("id") Long followUserId) {
+        return followService.isFollow(followUserId);
     }
 }
