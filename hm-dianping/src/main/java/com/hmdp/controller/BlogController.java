@@ -75,4 +75,14 @@ public class BlogController {
     }
 
 
+    @GetMapping("/of/user")
+    public Result queryBlogOfFollow(
+            @RequestParam("id") Long userId, @RequestParam(value = "current", defaultValue = "1") Integer current){
+        Page<Blog> page = blogService.query()
+                .eq("user_id", userId).page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+        // 获取当前页数据
+        List<Blog> records = page.getRecords();
+        return Result.ok(records);
+    }
+
 }
