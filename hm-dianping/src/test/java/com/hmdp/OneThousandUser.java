@@ -87,4 +87,14 @@ public class OneThousandUser extends ServiceImpl<UserMapper, User> implements IU
         return null;
     }
 
+    @Override
+    public Result sign() {
+        return null;
+    }
+
+    @Override
+    public Result signCount() {
+        return null;
+    }
+
 }
