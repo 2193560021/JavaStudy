@@ -82,7 +82,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String phone = loginForm.getPhone();
         //1.校验手机号
         if (RegexUtils.isPhoneInvalid(phone)) {
-
             //2.返回错误信息
             return Result.fail("手机号格式错误!");
         }
