@@ -1,10 +1,13 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -89,9 +93,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public PageResult page(Integer page, Integer pageSize) {
-        PageResult page1 = employeeMapper.page(page, pageSize);
-        return page1;
+    public PageResult page(EmployeePageQueryDTO employeePageQueryDTO) {
+
+        //分页查询
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+        Page<Employee> page1 = employeeMapper.pageQuery(employeePageQueryDTO);
+        long total = page1.getTotal();
+        List<Employee> records = page1.getResult();
+        PageResult page = new PageResult(total, records);
+
+        return page;
     }
 
 }
