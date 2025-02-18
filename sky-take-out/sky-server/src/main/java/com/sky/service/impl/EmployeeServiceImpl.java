@@ -105,4 +105,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return page;
     }
 
+    @Override
+    public void setStatus(Integer status, Long id) {
+//        Employee employee = new Employee();
+//        employee.setId(id);
+//        employee.setStatus(status);
+//        employee.setUpdateTime(LocalDateTime.now());
+        Employee employee = Employee.builder()
+                .status(status)
+                .updateTime(LocalDateTime.now())
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+    }
+
 }
