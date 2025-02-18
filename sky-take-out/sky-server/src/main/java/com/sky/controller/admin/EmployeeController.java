@@ -93,7 +93,6 @@ public class EmployeeController {
         return Result.success(save.toString());
     }
 
-
     /**
      * 员工查询
      * @return
@@ -105,7 +104,6 @@ public class EmployeeController {
         PageResult page1 = employeeService.page(employeePageQueryDTO);
         return Result.success(page1);
     }
-
 
     /**
      * 员工设置状态
@@ -120,7 +118,6 @@ public class EmployeeController {
         return Result.success();
     }
 
-
     /**
      * 查询单个员工
      * @return
@@ -132,8 +129,6 @@ public class EmployeeController {
         Employee employee = employeeService.getById(id);
         return Result.success(employee);
     }
-
-
 
     /**
      * 修改员工信息

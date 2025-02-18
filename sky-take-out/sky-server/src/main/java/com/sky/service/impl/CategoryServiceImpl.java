@@ -12,7 +12,9 @@ import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.CategoryMapper;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.CategoryService;
 import com.sky.service.EmployeeService;
@@ -29,6 +31,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private DishMapper dishMapper;
+
+    @Autowired
+    private SetmealMapper setmealMapper;
 
     @Override
     public PageResult page(CategoryPageQueryDTO categoryPageQueryDTO) {
@@ -88,6 +96,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(Long id) {
+        //查询当前分类是否关联了菜品
+        Integer count = dishMapper.countByCategoryId(id);
+        if (count > 0){
+            throw new RuntimeException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
+        }
+
+        //查询当前分类是否关联了套餐
+        count = setmealMapper.countByCategoryId(id);
+        if (count > 0){
+            throw new RuntimeException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
+        }
+        //正常删除
         categoryMapper.deleteById(id);
     }
 
