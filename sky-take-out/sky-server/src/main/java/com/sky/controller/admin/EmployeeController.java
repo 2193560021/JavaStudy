@@ -108,7 +108,7 @@ public class EmployeeController {
 
 
     /**
-     * 员工查询
+     * 员工设置状态
      * @return
      */
     @PostMapping("/status/{status}")
@@ -117,6 +117,33 @@ public class EmployeeController {
                             Long id){
         log.info("员工设置状态");
         employeeService.setStatus(status,id);
+        return Result.success();
+    }
+
+
+    /**
+     * 查询单个员工
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("查询单个员工")
+    public Result<Employee> getById(@PathVariable("id") Long id){
+        log.info("查询单个员工");
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+
+
+    /**
+     * 修改员工信息
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改员工信息")
+    public Result<Employee> getById(@RequestBody EmployeeDTO employeeDTO){
+        log.info("修改员工信息");
+        employeeService.update(employeeDTO);
         return Result.success();
     }
 }
