@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
@@ -15,6 +16,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.time.LocalDateTime;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -60,6 +63,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Integer save(EmployeeDTO employeeDTO) {
+
+        System.out.println("当前线程id" + Thread.currentThread().getId());
         Employee employee = new Employee();
 
         //对象属性拷贝
@@ -71,6 +76,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         String password = "123456";
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         employee.setPassword(password);
+        //设置创建时间和修改时间
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+        //TODO 设置创建人和修改人
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
 
         Integer insert = employeeMapper.insert(employee);
         return insert;
