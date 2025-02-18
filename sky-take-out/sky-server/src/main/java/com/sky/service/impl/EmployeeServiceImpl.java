@@ -2,13 +2,16 @@ package com.sky.service.impl;
 
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -53,6 +56,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //3、返回实体对象
         return employee;
+    }
+
+    @Override
+    public Integer save(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+
+        //对象属性拷贝
+        BeanUtils.copyProperties(employeeDTO,employee);
+
+        //设置账号状态，默认正常状态
+        employee.setStatus(StatusConstant.ENABLE);
+        //设置密码，需要进行md5加密处理
+        String password = "123456";
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        employee.setPassword(password);
+
+        Integer insert = employeeMapper.insert(employee);
+        return insert;
+    }
+
+    @Override
+    public PageResult page(Integer page, Integer pageSize) {
+        PageResult page1 = employeeMapper.page(page, pageSize);
+        return page1;
     }
 
 }
