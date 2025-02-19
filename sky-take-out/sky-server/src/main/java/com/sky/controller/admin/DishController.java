@@ -41,7 +41,7 @@ public class DishController {
         log.info("新增菜品：{}",dishDTO);
 
         System.out.println("当前线程id" + Thread.currentThread().getId());
-        Integer save = dishService.save(dishDTO);
+        Integer save = dishService.saveWithFlavor(dishDTO);
         return Result.success(save.toString());
     }
 

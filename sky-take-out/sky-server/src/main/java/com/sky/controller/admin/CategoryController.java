@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,6 +96,16 @@ public class CategoryController {
         log.info("删除分类");
         categoryService.delete(id);
         return Result.success();
+    }
+
+
+
+    @GetMapping("/list")
+    @ApiOperation("查询分类")
+    public Result<List<CategoryDTO>> selectList(@RequestParam Integer type){
+        log.info("查询分类");
+        List<CategoryDTO> categoryDTOS = categoryService.selectList(type);
+        return Result.success(categoryDTOS);
     }
 
 

@@ -1,5 +1,6 @@
 package com.sky.service;
 
+import com.sky.annotation.AutoFill;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.dto.DishDTO;
@@ -9,7 +10,7 @@ public interface DishService {
 
 //    PageResult page(CategoryPageQueryDTO categoryPageQueryDTO);
 
-    Integer save(DishDTO dishDTO);
+    Integer saveWithFlavor(DishDTO dishDTO);
 //
 //    void setStatus(Integer status, Long id);
 //

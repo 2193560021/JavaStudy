@@ -9,6 +9,8 @@ import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.dto.DishDTO;
 import com.sky.entity.Category;
 import com.sky.entity.Dish;
+import com.sky.entity.DishFlavor;
+import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.CategoryMapper;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
@@ -18,6 +20,7 @@ import com.sky.service.DishService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,81 +34,33 @@ public class DishServiceImpl implements DishService {
     private DishMapper dishMapper;
 
     @Autowired
+    private DishFlavorMapper dishFlavorMapper;
+
+    @Autowired
     private SetmealMapper setmealMapper;
 
-//    @Override
-//    public PageResult page(CategoryPageQueryDTO categoryPageQueryDTO) {
-//
-//        //分页查询
-//        PageHelper.startPage(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
-//        Page<Category> page1 = categoryMapper.pageQuery(categoryPageQueryDTO);
-//        long total = page1.getTotal();
-//        List<Category> records = page1.getResult();
-//        PageResult page = new PageResult(total, records);
-//
-//        return page;
-//    }
+    @Transactional
+    public Integer saveWithFlavor(DishDTO dishDTO) {
 
-    @Override
-    public Integer save(DishDTO dishDTO) {
-//
-//        System.out.println("当前线程id" + Thread.currentThread().getId());
-//        Dish dish = new Dish();
-//
+        Dish dish = new Dish();
 //        //对象属性拷贝
-//        BeanUtils.copyProperties(dishDTO,dish);
-//
+        BeanUtils.copyProperties(dishDTO,dish);
 //        //设置账号状态，默认正常状态
-////        category.setStatus(StatusConstant.ENABLE);
-//        //设置创建时间和修改时间
-////        category.setCreateTime(LocalDateTime.now());
-////        category.setUpdateTime(LocalDateTime.now());
-//        // 设置创建人和修改人
-////        category.setCreateUser(BaseContext.getCurrentId());
-////        category.setUpdateUser(BaseContext.getCurrentId());
-//
-//
-////        Integer insert = categoryMapper.insert(category);
-////        return insert;
-        return null;
+        dish.setStatus(StatusConstant.ENABLE);
+
+        Integer insert = dishMapper.insert(dish);
+
+        //获取生成的主键值
+        Long dishId = dish.getId();
+
+        List<DishFlavor> flavors = dishDTO.getFlavors();
+        if (flavors != null && flavors.size() > 0) {
+            flavors.forEach(dishFlavor -> {
+                dishFlavor.setDishId(dishId);
+            });
+            dishFlavorMapper.insertBatch(flavors);
+        }
+        return insert;
     }
-
-//    @Override
-//    public void setStatus(Integer status, Long id) {
-//        Category category = Category.builder()
-//                .status(status)
-////                .updateTime(LocalDateTime.now())
-////                .updateUser(BaseContext.getCurrentId())
-//                .id(id)
-//                .build();
-//        categoryMapper.update(category);
-//    }
-//
-//    @Override
-//    public void update(CategoryDTO categoryDTO) {
-//        Category category = new Category();
-//        BeanUtils.copyProperties(categoryDTO,category);
-////        category.setUpdateTime(LocalDateTime.now());
-////        category.setUpdateUser(BaseContext.getCurrentId());
-//        categoryMapper.update(category);
-//    }
-//
-//    @Override
-//    public void delete(Long id) {
-//        //查询当前分类是否关联了菜品
-//        Integer count = dishMapper.countByCategoryId(id);
-//        if (count > 0){
-//            throw new RuntimeException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
-//        }
-//
-//        //查询当前分类是否关联了套餐
-//        count = setmealMapper.countByCategoryId(id);
-//        if (count > 0){
-//            throw new RuntimeException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
-//        }
-//        //正常删除
-//        categoryMapper.deleteById(id);
-//    }
-
 
 }
