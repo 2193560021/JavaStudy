@@ -78,8 +78,6 @@ public class CategoryServiceImpl implements CategoryService {
     public void setStatus(Integer status, Long id) {
         Category category = Category.builder()
                 .status(status)
-//                .updateTime(LocalDateTime.now())
-//                .updateUser(BaseContext.getCurrentId())
                 .id(id)
                 .build();
         categoryMapper.update(category);

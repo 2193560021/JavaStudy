@@ -25,7 +25,6 @@ public interface CategoryMapper {
     @AutoFill(value = OperationType.INSERT)
     Integer insert(Category category);
 
-
     @AutoFill(value = OperationType.UPDATE)
     void update(Category category);
 

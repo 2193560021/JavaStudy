@@ -3,7 +3,9 @@ package com.sky.controller.admin;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.dto.DishDTO;
+import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.entity.Dish;
 import com.sky.properties.JwtProperties;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -31,6 +33,18 @@ public class DishController {
 
 
     /**
+     * 菜品分页查询
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation("菜品分页查询")
+    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
+        log.info("菜品分页查询：{}",dishPageQueryDTO);
+        PageResult page1 = dishService.page(dishPageQueryDTO);
+        return Result.success(page1);
+    }
+
+    /**
      *新增菜品
      * @param dishDTO
      * @return
@@ -43,7 +57,52 @@ public class DishController {
         System.out.println("当前线程id" + Thread.currentThread().getId());
         Integer save = dishService.saveWithFlavor(dishDTO);
         return Result.success(save.toString());
+
     }
+
+
+    /**
+     * 菜品设置状态
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品设置状态")
+    public Result setStatus(@PathVariable("status") Integer status,
+                            Long id){
+        log.info("菜品设置状态");
+        dishService.setStatus(status,id);
+        return Result.success();
+    }
+
+    /**
+     * 修改菜品
+     */
+    @GetMapping("/{id}")
+    public Result<Dish> getById(@PathVariable("id") Long id){
+        Dish dish = dishService.getById(id);
+        return Result.success(dish);
+    }
+
+
+
+    @DeleteMapping
+    @ApiOperation("删除菜品")
+    public Result delete(@RequestParam String ids){
+        log.info("删除分类");
+        dishService.delete(id);
+        return Result.success();
+    }
+
+
+
+    @DeleteMapping
+    @ApiOperation("删除菜品")
+    public Result deleteMore(@RequestParam String ids){
+        log.info("删除分类");
+//        dishService.deleteMore(ids);
+        return Result.success();
+    }
+
 
 
 
