@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 员工管理
  */
@@ -85,21 +87,14 @@ public class DishController {
 
 
 
-    @DeleteMapping
-    @ApiOperation("删除菜品")
-    public Result delete(@RequestParam String ids){
-        log.info("删除分类");
-        dishService.delete(id);
-        return Result.success();
-    }
 
 
 
     @DeleteMapping
     @ApiOperation("删除菜品")
-    public Result deleteMore(@RequestParam String ids){
-        log.info("删除分类");
-//        dishService.deleteMore(ids);
+    public Result delete(@RequestParam List<Long> ids){
+        log.info("删除菜品");
+        dishService.deleteBatch(ids);
         return Result.success();
     }
 

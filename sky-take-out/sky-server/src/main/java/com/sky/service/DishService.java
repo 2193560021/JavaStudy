@@ -8,6 +8,8 @@ import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 
+import java.util.List;
+
 public interface DishService {
 
 //    PageResult page(CategoryPageQueryDTO categoryPageQueryDTO);
@@ -20,7 +22,7 @@ public interface DishService {
 
     Dish getById(Long id);
 
-    void delete(Long id);
+    void deleteBatch(List<Long> ids);
 //
 //    void setStatus(Integer status, Long id);
 //
