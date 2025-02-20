@@ -8,6 +8,8 @@ import com.sky.enumeration.OperationType;
 import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface DishMapper {
 
@@ -38,8 +40,8 @@ public interface DishMapper {
     @Select("select * from dish where id = #{id}")
     Dish getById(Long id);
 
-    @Delete("delete from dish where id = #{id}")
-    void deleteById(Long id);
+//    @Delete("delete from dish where id in (#{ids})")
+    void deleteById(List<Long> ids);
 
     @Select("select status from dish where id = #{id}")
     Integer selectStatus(Long id);

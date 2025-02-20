@@ -57,4 +57,11 @@
         where id = #{id}
     </update>
 
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from dish where id in
+        <foreach collection="ids" item="id" separator=","  open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>
