@@ -11,6 +11,7 @@ import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.CategoryService;
 import com.sky.service.DishService;
+import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -80,13 +81,10 @@ public class DishController {
      * 修改菜品
      */
     @GetMapping("/{id}")
-    public Result<Dish> getById(@PathVariable("id") Long id){
-        Dish dish = dishService.getById(id);
-        return Result.success(dish);
+    public Result<DishVO> getById(@PathVariable("id") Long id){
+        DishVO dishVO = dishService.getById(id);
+        return Result.success(dishVO);
     }
-
-
-
 
 
 
@@ -95,6 +93,19 @@ public class DishController {
     public Result delete(@RequestParam List<Long> ids){
         log.info("删除菜品");
         dishService.deleteBatch(ids);
+        return Result.success();
+    }
+
+
+    /**
+     * 修改菜品信息
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改菜品信息")
+    public Result<Dish> update(@RequestBody DishDTO dishDTO){
+        log.info("修改菜品信息");
+        dishService.updateWithFlavor(dishDTO);
         return Result.success();
     }
 

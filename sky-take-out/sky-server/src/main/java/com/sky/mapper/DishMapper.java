@@ -40,8 +40,12 @@ public interface DishMapper {
     @Select("select * from dish where id = #{id}")
     Dish getById(Long id);
 
+    @Select("select * from dish where id = #{id}")
+    DishVO getByIdWithFlavor(Long id);
+
 //    @Delete("delete from dish where id in (#{ids})")
     void deleteById(List<Long> ids);
+
 
     @Select("select status from dish where id = #{id}")
     Integer selectStatus(Long id);
