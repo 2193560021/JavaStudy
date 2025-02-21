@@ -26,6 +26,8 @@ public interface DishService {
     void deleteBatch(List<Long> ids);
 
     void updateWithFlavor(DishDTO dishDTO);
+
+    List<Dish> listById(Integer categoryId);
 //
 //    void setStatus(Integer status, Long id);
 //

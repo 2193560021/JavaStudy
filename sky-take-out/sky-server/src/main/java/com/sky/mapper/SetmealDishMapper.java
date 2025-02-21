@@ -1,5 +1,6 @@
 package com.sky.mapper;
 
+import com.sky.entity.SetmealDish;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -11,4 +12,6 @@ public interface SetmealDishMapper {
     // "select setmeal_id from setmeal_dish where dish_id in #{dishIds}")
     List<Long> getSetmealIdsByDishIds(List<Long> dishIds);
 
+
+    Integer insertBatch(List<SetmealDish> setmealDishes);
 }

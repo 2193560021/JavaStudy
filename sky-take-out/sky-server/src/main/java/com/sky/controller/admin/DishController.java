@@ -109,6 +109,12 @@ public class DishController {
         return Result.success();
     }
 
+    @GetMapping("/list")
+    @ApiOperation("根据条件查询菜品数据")
+    public Result<List<Dish>> listById(@RequestParam Integer categoryId){
+        List<Dish> list = dishService.listById(categoryId);
+        return Result.success(list);
+    }
 
 
 

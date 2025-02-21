@@ -49,4 +49,7 @@ public interface DishMapper {
 
     @Select("select status from dish where id = #{id}")
     Integer selectStatus(Long id);
+
+    @Select("select * from dish where category_id = #{categoryId}")
+    List<Dish> listById(Integer categoryId);
 }
