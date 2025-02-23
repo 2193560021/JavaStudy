@@ -3,6 +3,7 @@ package com.sky.controller.admin;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.dto.SetmealDTO;
+import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.properties.JwtProperties;
 import com.sky.result.PageResult;
@@ -30,18 +31,18 @@ public class SetmealController {
     @Autowired
     private SetmealService setmealService;
 
-//
-//    /**
-//     * 菜品分页查询
-//     * @return
-//     */
-//    @GetMapping("/page")
-//    @ApiOperation("菜品分页查询")
-//    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
-//        log.info("菜品分页查询：{}",dishPageQueryDTO);
-//        PageResult page1 = dishService.page(dishPageQueryDTO);
-//        return Result.success(page1);
-//    }
+
+    /**
+     * 套餐分页查询
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation("套餐分页查询")
+    public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO){
+        log.info("套餐分页查询：{}",setmealPageQueryDTO);
+        PageResult page1 = setmealService.page(setmealPageQueryDTO);
+        return Result.success(page1);
+    }
 
     /**
      *新增套餐
@@ -59,19 +60,19 @@ public class SetmealController {
 
     }
 
-//
-//    /**
-//     * 菜品设置状态
-//     * @return
-//     */
-//    @PostMapping("/status/{status}")
-//    @ApiOperation("菜品设置状态")
-//    public Result setStatus(@PathVariable("status") Integer status,
-//                            Long id){
-//        log.info("菜品设置状态");
-//        dishService.setStatus(status,id);
-//        return Result.success();
-//    }
+
+    /**
+     * 套餐设置状态
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("套餐设置状态")
+    public Result setStatus(@PathVariable("status") Integer status,
+                            Long id){
+        log.info("套餐设置状态");
+        setmealService.setStatus(status,id);
+        return Result.success();
+    }
 //
 //    /**
 //     * 修改菜品
