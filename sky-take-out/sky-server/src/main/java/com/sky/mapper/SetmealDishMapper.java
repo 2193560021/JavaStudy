@@ -14,4 +14,9 @@ public interface SetmealDishMapper {
 
 
     Integer insertBatch(List<SetmealDish> setmealDishes);
+
+    @Select("select * from setmeal_dish where setmeal_id = #{id}")
+    List<SetmealDish> getDishBySetmealId(Long id);
+
+    void deleteBySetmealId(List<Long> ids);
 }

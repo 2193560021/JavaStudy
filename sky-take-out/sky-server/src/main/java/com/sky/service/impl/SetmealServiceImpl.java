@@ -2,11 +2,13 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 @Service
@@ -70,20 +73,34 @@ public class SetmealServiceImpl implements SetmealService {
                 .build();
         setmealMapper.update(setmeal);
     }
-//
-//    @Override
-//    public void startOrStop(Integer status) {
-//        redisTemplate.opsForValue().set("SHOP_STATUS",status);
-//    }
-//
-//    @Override
-//    public Integer getStatus() {
-//        Integer shopStatus = (Integer) redisTemplate.opsForValue().get("SHOP_STATUS");
-//        if(shopStatus == null){
-//            return StatusConstant.ENABLE;
-//        }
-//        return shopStatus;
-//    }
+
+    @Override
+    public SetmealVO getById(Long id) {
+        Setmeal setmeal = setmealMapper.getById(id);
+        List<SetmealDish> setmealDishList = setmealDishMapper.getDishBySetmealId(id);
+        SetmealVO setmealVO = new SetmealVO();
+        BeanUtils.copyProperties(setmeal,setmealVO);
+        setmealVO.setSetmealDishes(setmealDishList);
+        return setmealVO;
+    }
+
+    @Override
+    public void updateWithFlavor(SetmealDTO setmealDTO) {
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO,setmeal);
+        setmealMapper.update(setmeal);
+    }
+
+    @Override
+    public void deleteBatch(List<Long> ids) {
+        for (Long id : ids) {
+            if(setmealMapper.getById(id).getStatus() == StatusConstant.ENABLE){
+                throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
+            }
+        }
+        setmealMapper.deleteById(ids);
+        setmealDishMapper.deleteBySetmealId(ids);
+    }
 
 
 }

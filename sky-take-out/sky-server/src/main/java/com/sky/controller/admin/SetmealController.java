@@ -5,12 +5,14 @@ import com.sky.dto.DishPageQueryDTO;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
 import com.sky.properties.JwtProperties;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
 import com.sky.service.SetmealService;
 import com.sky.vo.DishVO;
+import com.sky.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -73,38 +75,38 @@ public class SetmealController {
         setmealService.setStatus(status,id);
         return Result.success();
     }
-//
-//    /**
-//     * 修改菜品
-//     */
-//    @GetMapping("/{id}")
-//    public Result<DishVO> getById(@PathVariable("id") Long id){
-//        DishVO dishVO = dishService.getById(id);
-//        return Result.success(dishVO);
-//    }
-//
-//
-//
-//    @DeleteMapping
-//    @ApiOperation("删除菜品")
-//    public Result delete(@RequestParam List<Long> ids){
-//        log.info("删除菜品");
-//        dishService.deleteBatch(ids);
-//        return Result.success();
-//    }
-//
-//
-//    /**
-//     * 修改菜品信息
-//     * @return
-//     */
-//    @PutMapping
-//    @ApiOperation("修改菜品信息")
-//    public Result<Dish> update(@RequestBody DishDTO dishDTO){
-//        log.info("修改菜品信息");
-//        dishService.updateWithFlavor(dishDTO);
-//        return Result.success();
-//    }
+
+    /**
+     * 修改菜品
+     */
+    @GetMapping("/{id}")
+    public Result<SetmealVO> getById(@PathVariable("id") Long id){
+        SetmealVO setmealVO = setmealService.getById(id);
+        return Result.success(setmealVO);
+    }
+
+
+
+    @DeleteMapping
+    @ApiOperation("删除菜品")
+    public Result delete(@RequestParam List<Long> ids){
+        log.info("删除菜品");
+        setmealService.deleteBatch(ids);
+        return Result.success();
+    }
+
+
+    /**
+     * 修改套餐信息
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改套餐信息")
+    public Result<Setmeal> update(@RequestBody SetmealDTO setmealDTO){
+        log.info("修改套餐信息:{}",setmealDTO);
+        setmealService.updateWithFlavor(setmealDTO);
+        return Result.success();
+    }
 //
 //    @GetMapping("/list")
 //    @ApiOperation("根据条件查询菜品数据")
