@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * 员工管理
  */
-@RestController
+@RestController("adminCategoryController")
 @RequestMapping("/admin/category")
 @Slf4j
 @Api(tags = "分类相关接口")
@@ -102,10 +102,10 @@ public class CategoryController {
 
     @GetMapping("/list")
     @ApiOperation("查询分类")
-    public Result<List<CategoryDTO>> selectList(@RequestParam Integer type){
+    public Result<List<Category>> selectList(@RequestParam Integer type){
         log.info("查询分类");
-        List<CategoryDTO> categoryDTOS = categoryService.selectList(type);
-        return Result.success(categoryDTOS);
+        List<Category> category = categoryService.selectList(type);
+        return Result.success(category);
     }
 
 

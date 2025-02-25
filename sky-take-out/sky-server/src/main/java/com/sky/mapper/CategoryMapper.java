@@ -31,6 +31,6 @@ public interface CategoryMapper {
     @Delete("delete from category where id = #{id}")
     void deleteById(Long id);
 
-    @Select("select * from category where type = #{type} order by sort asc")
-    List<CategoryDTO> selectList(Integer type);
+//    @Select("select * from category where type = #{type} order by sort asc")
+    List<Category> selectList(Integer type);
 }

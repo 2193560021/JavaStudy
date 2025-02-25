@@ -28,6 +28,14 @@ public interface DishService {
     void updateWithFlavor(DishDTO dishDTO);
 
     List<Dish> listById(Integer categoryId);
+
+
+    /**
+     * 条件查询菜品和口味
+     * @param dish
+     * @return
+     */
+    List<DishVO> listWithFlavor(Dish dish);
 //
 //    void setStatus(Integer status, Long id);
 //

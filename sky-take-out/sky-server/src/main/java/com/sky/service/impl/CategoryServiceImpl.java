@@ -110,7 +110,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDTO> selectList(Integer type) {
+    public List<Category> selectList(Integer type) {
         return categoryMapper.selectList(type);
     }
 

@@ -52,4 +52,7 @@ public interface DishMapper {
 
     @Select("select * from dish where category_id = #{categoryId}")
     List<Dish> listById(Integer categoryId);
+
+
+    List<Dish> list(Dish dish);
 }
