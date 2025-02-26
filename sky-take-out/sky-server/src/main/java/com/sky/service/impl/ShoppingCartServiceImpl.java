@@ -76,8 +76,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public List<ShoppingCart> list(Long userId) {
-        List<ShoppingCart> shoppingCartList = shoppingCartMapper.list(userId);
+    public List<ShoppingCart> list(ShoppingCart shoppingCart) {
+        List<ShoppingCart> shoppingCartList = shoppingCartMapper.list(shoppingCart);
         return shoppingCartList;
+    }
+
+    @Override
+    public void clean(Long userId) {
+        shoppingCartMapper.clean(userId);
     }
 }
