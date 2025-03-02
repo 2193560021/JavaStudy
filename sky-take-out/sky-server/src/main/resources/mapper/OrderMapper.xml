@@ -3,6 +3,16 @@
 <mapper namespace="com.sky.mapper.OrderMapper">
 
 
+    <select id="pageQuery" resultType="Orders">
+        select * from orders
+        <where>
+            <if test="number != null and number != ''">
+                and number like concat('%',#{number},'%')
+            </if>
+        </where>
+        order by order_time asc
+    </select>
+
     <insert id="insert" parameterType="Orders" useGeneratedKeys="true" keyProperty="id">
         insert into orders (
             number,
