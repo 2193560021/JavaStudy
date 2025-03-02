@@ -4,6 +4,7 @@ import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.AddressBook;
+import com.sky.entity.OrderDetail;
 import com.sky.entity.Orders;
 import com.sky.entity.ShoppingCart;
 import com.sky.exception.AddressBookBusinessException;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -42,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
     private ShoppingCartMapper shoppingCartMapper;
 
     @Override
+    @Transactional
     public OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO) {
 
         //处理各种异常情况（如地址簿为空，购物车为空）
@@ -70,16 +74,28 @@ public class OrderServiceImpl implements OrderService {
         orders.setUserId(userId);
 
         orderMapper.insert(orders);
+
+        List<OrderDetail> orderDetailList = new ArrayList<>();
         //向订单明细表插入数据，多条
         for (ShoppingCart cart : shoppingCartList) {
-            orderDetailMapper.insert(cart);
+            OrderDetail orderDetail = new OrderDetail();
+            BeanUtils.copyProperties(cart,orderDetail);
+            orderDetail.setOrderId(orders.getId());
+            orderDetailList.add(orderDetail);
         }
+        orderDetailMapper.insertBatch(orderDetailList);
 
         //清空购物车数据
+        shoppingCartMapper.clean(userId);
 
         //封装返回结果
-
-        return null;
+        OrderSubmitVO orderSubmitVO = OrderSubmitVO.builder()
+                .id(orders.getId())
+                .orderTime(orders.getOrderTime())
+                .orderNumber(orders.getNumber())
+                .orderAmount(orders.getAmount())
+                .build();
+        return orderSubmitVO;
     }
 
 }
