@@ -18,6 +18,7 @@ import com.sky.service.AddressBookService;
 import com.sky.service.OrderService;
 import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
+import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -140,6 +142,19 @@ public class OrderServiceImpl implements OrderService {
         jsonObject.put("paySign", "111");
 
 
+        // 根据订单号查询订单
+        Orders ordersDB = orderMapper.getByNumber(ordersPaymentDTO.getOrderNumber());
+
+        // 根据订单id更新订单的状态、支付方式、支付状态、结账时间
+        Orders orders = Orders.builder()
+                .id(ordersDB.getId())
+                .status(Orders.TO_BE_CONFIRMED)
+                .payStatus(Orders.PAID)
+                .checkoutTime(LocalDateTime.now())
+                .build();
+
+        orderMapper.update(orders);
+
         OrderPaymentVO vo = jsonObject.toJavaObject(OrderPaymentVO.class);
         vo.setPackageStr(jsonObject.getString("package"));
 
@@ -147,6 +162,7 @@ public class OrderServiceImpl implements OrderService {
     }
     public void paySuccess(String outTradeNo) {
 
+        //TODO 废
         // 根据订单号查询订单
         Orders ordersDB = orderMapper.getByNumber(outTradeNo);
 
@@ -161,22 +177,174 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
     }
 
-    @Override
-    public PageResult historyOrders(OrdersPageQueryDTO ordersPageQueryDTO) {
-        PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+    /**
+     * 用户端订单分页查询
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
+    public PageResult pageQuery4User(int pageNum, int pageSize, Integer status) {
+        // 设置分页
+        PageHelper.startPage(pageNum, pageSize);
+
+        OrdersPageQueryDTO ordersPageQueryDTO = new OrdersPageQueryDTO();
         ordersPageQueryDTO.setUserId(BaseContext.getCurrentId());
-        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
-        long total = page.getTotal();
-        List<Orders> records = page.getResult();
-        PageResult pageResult = new PageResult(total, records);
-        return pageResult;
+        ordersPageQueryDTO.setStatus(status);
 
+        // 分页条件查询
+        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+
+        List<OrderVO> list = new ArrayList();
+
+        // 查询出订单明细，并封装入OrderVO进行响应
+        if (page != null && page.getTotal() > 0) {
+            for (Orders orders : page) {
+                Long orderId = orders.getId();// 订单id
+
+                // 查询订单明细
+                List<OrderDetail> orderDetails = orderDetailMapper.getById(orderId);
+
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders, orderVO);
+                orderVO.setOrderDetailList(orderDetails);
+
+                list.add(orderVO);
+            }
+        }
+        return new PageResult(page.getTotal(), list);
     }
 
     @Override
-    public OrderDetail orderDetail(Long id) {
-        OrderDetail orderDetail = orderDetailMapper.getById(id);
-        return orderDetail;
+    public OrderVO details(Long id) {
+        // 根据id查询订单
+        Orders orders = orderMapper.getById(id);
+
+        // 查询该订单对应的菜品/套餐明细
+        List<OrderDetail> orderDetailList = orderDetailMapper.getById(orders.getId());
+
+        // 将该订单及其详情封装到OrderVO并返回
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(orders, orderVO);
+        orderVO.setOrderDetailList(orderDetailList);
+
+        return orderVO;
     }
+
+    @Override
+    public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
+        PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+
+        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+        List<OrderVO> orderVOList = getOrderVOList(page);
+
+        PageResult pageResult = new PageResult(page.getTotal(), orderVOList);
+        return pageResult;
+    }
+
+    private List<OrderVO> getOrderVOList(Page<Orders> page) {
+        // 需要返回订单菜品信息，自定义OrderVO响应结果
+        List<OrderVO> orderVOList = new ArrayList<>();
+
+        List<Orders> ordersList = page.getResult();
+        if (!CollectionUtils.isEmpty(ordersList)) {
+            for (Orders orders : ordersList) {
+                // 将共同字段复制到OrderVO
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders, orderVO);
+                String orderDishes = getOrderDishesStr(orders);
+
+                // 将订单菜品信息封装到orderVO中，并添加到orderVOList
+                orderVO.setOrderDishes(orderDishes);
+                orderVOList.add(orderVO);
+            }
+        }
+        return orderVOList;
+    }
+
+    private String getOrderDishesStr(Orders orders) {
+        List<OrderDetail> orderDetailList = orderDetailMapper.getById(orders.getId());
+        String orderDishes = "";
+        for (OrderDetail orderDetail : orderDetailList) {
+            orderDishes += orderDetail.getName() + "*" + orderDetail.getNumber() + ";";
+        };
+        return orderDishes;
+    }
+
+    @Override
+    public OrderVO orderDetail(Long id) {
+        OrderVO orderVO = new OrderVO();
+        List<OrderDetail> orderDetailList = orderDetailMapper.getById(id);
+        String orderDishes = "";
+        for (OrderDetail orderDetail : orderDetailList) {
+            orderDishes += orderDetail.getName() + "*" + orderDetail.getNumber() + ";";
+        };
+        orderVO.setOrderDishes(orderDishes);
+        orderVO.setOrderDetailList(orderDetailList);
+        return orderVO;
+    }
+
+    @Override
+    public Integer confirm(Long id) {
+        Orders orders = Orders.builder()
+                .id(id)
+                .status(Orders.CONFIRMED)
+                .build();
+//        Integer confirmed = Orders.CONFIRMED;
+        Integer update = orderMapper.update(orders);
+        return update;
+    }
+
+    @Override
+    public Integer rejection(Long id, String rejectionReason) {
+        Orders orders = Orders.builder()
+                .id(id)
+                .status(Orders.CANCELLED)
+                .rejectionReason(rejectionReason)
+                .build();
+        Integer update = orderMapper.update(orders);
+        return update;
+    }
+
+    @Override
+    public Integer delivery(Long id) {
+        Orders orders = Orders.builder()
+                .id(id)
+                .status(Orders.DELIVERY_IN_PROGRESS)
+                .build();
+        Integer update = orderMapper.update(orders);
+        return update;
+    }
+
+    @Override
+    public Integer complete(Long id) {
+        Orders orders = Orders.builder()
+                .id(id)
+                .status(Orders.COMPLETED)
+                .build();
+        Integer update = orderMapper.update(orders);
+        return update;
+    }
+
+    @Override
+    public OrderStatisticsVO statistics() {
+        OrderStatisticsVO vo = new OrderStatisticsVO();
+        vo.setToBeConfirmed(orderMapper.countByStatus(Orders.TO_BE_CONFIRMED));
+        vo.setConfirmed(orderMapper.countByStatus(Orders.CONFIRMED));
+        vo.setDeliveryInProgress(orderMapper.countByStatus(Orders.DELIVERY_IN_PROGRESS));
+        return vo;
+    }
+
+    @Override
+    public Integer cancel(Long id) {
+        Orders orders = Orders.builder()
+                .id(id)
+                .status(Orders.CANCELLED)
+                .build();
+        Integer update = orderMapper.update(orders);
+        return update;
+    }
+
 
 }

@@ -4,6 +4,7 @@ import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.OrderDetail;
+import com.sky.entity.Orders;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
@@ -50,19 +51,27 @@ public class OrderController {
 
     @GetMapping("/historyOrders")
     @ApiOperation("查询历史订单")
-    public Result<PageResult> historyOrders(OrdersPageQueryDTO ordersPageQueryDTO){
-        log.info("查询历史订单：{}", ordersPageQueryDTO);
-        PageResult pageResult = orderService.historyOrders(ordersPageQueryDTO);
+    public Result<PageResult> page(int page, int pageSize, Integer status) {
+        PageResult pageResult = orderService.pageQuery4User(page, pageSize, status);
         return Result.success(pageResult);
     }
 
 
     @GetMapping("/orderDetail/{id}")
     @ApiOperation("订单明细")
-    public Result<OrderDetail> orderDetail(@PathVariable Long id){
+    public Result<OrderVO> orderDetail(@PathVariable Long id){
         log.info("订单明细：{}", id);
-        OrderDetail orderDetail = orderService.orderDetail(id);
-        return Result.success(orderDetail);
+        OrderVO orderVO = orderService.details(id);
+        return Result.success(orderVO);
     }
+
+
+    @PutMapping("/cancel/{id}")
+    public Result cancel(@PathVariable Long id){
+        log.info("用户取消：{}", id);
+        Integer cancel = orderService.cancel(id);
+        return Result.success(cancel);
+    }
+
 
 }

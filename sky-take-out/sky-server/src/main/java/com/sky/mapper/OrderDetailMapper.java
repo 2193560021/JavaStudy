@@ -2,6 +2,7 @@ package com.sky.mapper;
 
 import com.sky.entity.OrderDetail;
 import com.sky.entity.ShoppingCart;
+import com.sky.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -14,5 +15,5 @@ public interface OrderDetailMapper {
     void insertBatch(List<OrderDetail> orderDetailList);
 
     @Select("select * from order_detail where order_id = #{id}")
-    OrderDetail getById(Long id);
+    List<OrderDetail> getById(Long id);
 }
