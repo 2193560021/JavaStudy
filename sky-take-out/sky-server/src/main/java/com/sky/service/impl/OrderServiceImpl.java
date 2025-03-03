@@ -232,6 +232,7 @@ public class OrderServiceImpl implements OrderService {
         return orderVO;
     }
 
+    //商家查询所有订单，里面多了一个字符串OrderDishes
     @Override
     public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
         PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
@@ -271,6 +272,9 @@ public class OrderServiceImpl implements OrderService {
         };
         return orderDishes;
     }
+
+    //Over 商家查询所有订单，里面多了一个字符串OrderDishes
+
 
     @Override
     public OrderVO orderDetail(Long id) {
