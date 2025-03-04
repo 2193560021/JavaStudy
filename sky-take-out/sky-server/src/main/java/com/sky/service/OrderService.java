@@ -58,4 +58,6 @@ public interface OrderService {
     OrderVO details(Long id);
 
     void repetition(Long id);
+
+    void reminder(Long id);
 }
