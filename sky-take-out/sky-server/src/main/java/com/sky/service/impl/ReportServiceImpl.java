@@ -109,10 +109,10 @@ public class ReportServiceImpl implements ReportService {
             LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
             Map map = new HashMap<>();
             map.put("end", endTime);
-            Integer OrderCount = orderMapper.getOrderCount(map);
+            Integer OrderCount = orderMapper.countByMap(map);
             map.put("begin", beginTime);
             map.put("status", Orders.COMPLETED);
-            Integer validOrderCount = orderMapper.getOrderCount(map);
+            Integer validOrderCount = orderMapper.countByMap(map);
             orderCountListList.add(OrderCount);
             validOrderCountListList.add(validOrderCount);
         }

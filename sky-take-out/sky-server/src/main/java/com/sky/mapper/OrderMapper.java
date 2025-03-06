@@ -49,7 +49,7 @@ public interface OrderMapper {
     Double sumByMap(Map map);
 
 
-    Integer getOrderCount(Map map);
+    Integer countByMap(Map map);
 
     List<GoodsSalesDTO> getTop10(LocalDateTime begin, LocalDateTime end);
 }
