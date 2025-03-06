@@ -1,10 +1,12 @@
 package com.sky.service.impl;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import org.apache.commons.lang3.StringUtils;
@@ -131,6 +133,27 @@ public class ReportServiceImpl implements ReportService {
                 .validOrderCount(validOrderCount)
                 .orderCompletionRate(orderCompletionRate)
                 .build();
+    }
+
+    @Override
+    public SalesTop10ReportVO getTop10(LocalDate begin, LocalDate end) {
+        LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+
+
+        List<String> name = new ArrayList<>();
+        List<String> number = new ArrayList<>();
+        List<GoodsSalesDTO> top10List = orderMapper.getTop10(beginTime, endTime);
+        for (GoodsSalesDTO top10 : top10List) {
+            name.add(top10.getName());
+            number.add(top10.getNumber().toString());
+        }
+
+
+        return SalesTop10ReportVO.builder()
+               .nameList(StringUtils.join(name, ","))
+               .numberList(StringUtils.join(number, ","))
+               .build();
     }
 
 
