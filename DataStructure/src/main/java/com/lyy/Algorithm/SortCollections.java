@@ -29,13 +29,30 @@ public class SortCollections {
         //快速排序
         QuickSort(arr,0,n - 1);
 
-        for (int i = 0; i < n; i++) {
-            System.out.println(arr[i]);
+        for (int x = 0; x < n; x++) {
+            System.out.println(arr[x]);
         }
     }
 
     public static void MergeSort(int[] arr, int l, int r){
         if(l >= r) return;
+        int mid = (l + r) >> 1;
+        MergeSort(arr, l, mid);
+        MergeSort(arr, mid + 1, r);
+
+        int[] temp = new int[r - l + 1];
+        int k = 0; 
+        int i = l;
+        int j = mid + 1;
+        while(i <= mid && j<= r){
+            if(arr[i] <= arr[j]) temp[k++] = arr[i++];
+            else temp[k++] = arr[j++];
+        }
+        while(i <= mid) temp[k++] = arr[i++];
+        while(j <= r) temp[k++] = arr[j++];
+
+        for(int m = l,n = 0;m <= r; m++,n++) arr[m] = temp[n];
+
     }
 
 
@@ -43,3 +60,5 @@ public class SortCollections {
 
     }
 }
+
+
