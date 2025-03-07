@@ -24,7 +24,7 @@ public class SortCollections {
 
 
         //归并排序
-        MergeSort(arr,0,n - 1);
+        // MergeSort(arr,0,n - 1);
 
         //快速排序
         QuickSort(arr,0,n - 1);
@@ -34,6 +34,8 @@ public class SortCollections {
         }
     }
 
+
+    //归并排序
     public static void MergeSort(int[] arr, int l, int r){
         if(l >= r) return;
         int mid = (l + r) >> 1;
@@ -55,9 +57,24 @@ public class SortCollections {
 
     }
 
-
+    //快速排序
     public static void QuickSort(int[] arr, int l, int r){
+        if(l >= r) return;
+        int flag = arr[(l + r) >> 1];
 
+        int i = l - 1;
+        int j = r + 1;
+        while(i < j){
+            do i++; while(arr[i] < flag);
+            do j--; while(arr[j] > flag);
+            if(i < j){
+                int tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+        QuickSort(arr, l, j);
+        QuickSort(arr, j + 1, r);
     }
 }
 
