@@ -30,6 +30,8 @@ public class NiXuDui {
         if (l >= r) return;
         int mid = l + r >> 1;
 
+        Merge_Result(arr, l, mid);
+        Merge_Result(arr, mid + 1, r);
         int i = l;
         int j = mid + 1;
         int[] tmp = new int[r - l + 1];
@@ -50,7 +52,5 @@ public class NiXuDui {
         for (int m = l,n = 0; m <= r;m++,n++ ){
             arr[m] = tmp[n];
         }
-        Merge_Result(arr, l, mid);
-        Merge_Result(arr, mid + 1, r);
     }
 }
