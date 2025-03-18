@@ -10,16 +10,23 @@ public class test {
     
     @Test
     public void test01(){
-        List list = new ArrayList<>();
+        try {
+            int i = 0;
+            while (i < 5) {
+                i++;
+                if (i == 3) {
+                    continue; // 跳过本次循环的剩余代码
+                }
+                System.out.println("i=" + i);
+                // 输出：2, 4, 5
+            }
 
-        list.add(1);
-        list.add(2);
-        list.add(6);
-
-        list.forEach(System.out::println);
-
-         
-        System.out.println("list = " + list);
+            System.exit(0);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            System.out.println("finally");
+        }
 
     }
 }

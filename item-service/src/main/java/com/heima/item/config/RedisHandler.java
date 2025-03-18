@@ -1,5 +1,6 @@
 package com.heima.item.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heima.item.pojo.Item;
 import com.heima.item.pojo.ItemStock;
@@ -7,7 +8,6 @@ import com.heima.item.service.IItemStockService;
 import com.heima.item.service.impl.ItemService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +36,7 @@ public class RedisHandler implements InitializingBean {
         for (Item item : itemList) {
             String json = MAPPER.writeValueAsString(item);
 
-            stringRedisTemplate.opsForValue().set("item:id" + item.getId(), json);
+            stringRedisTemplate.opsForValue().set("item:id:" + item.getId(), json);
         }
 
         List<ItemStock> stockList = stockService.list();
@@ -44,8 +44,21 @@ public class RedisHandler implements InitializingBean {
         for (ItemStock itemStock : stockList) {
             String json = MAPPER.writeValueAsString(itemStock);
 
-            stringRedisTemplate.opsForValue().set("item:stock:id" + itemStock.getId(), json);
+            stringRedisTemplate.opsForValue().set("item:stock:id:" + itemStock.getId(), json);
         }
 
+    }
+
+    public void saveItem(Item item){
+        try {
+            String json = MAPPER.writeValueAsString(item);
+            stringRedisTemplate.opsForValue().set("item:id:" + item.getId(), json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteItem(Long id){
+        stringRedisTemplate.delete("item:id:" + id);
     }
 }

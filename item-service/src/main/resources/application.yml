@@ -24,3 +24,6 @@ logging:
     com.heima: debug
   pattern:
     dateformat: HH:mm:ss:SSS
+canal:
+  destination: heima
+  server: 192.168.209.128:11111
