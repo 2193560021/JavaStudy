@@ -1,6 +1,4 @@
-package com.lyy.Algorithm;
-
-import static com.lyy.Algorithm.SingleNum.solution;
+package com.lyy.Algorithm_AcWing;
 
 public class MarsCode_2 {
     public static int solution(int n, int k, int[] data) {

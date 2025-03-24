@@ -1,11 +1,13 @@
 import org.junit.Test;
 
+import java.io.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class test01 {
+public class test01 implements Serializable {
+    private transient final int in = 10;
     @Test
     public void testArray(){
-        int[] a = new int[10];
+         int[] a = new int[10];
 
         int[] nums = {1,3,2,5,4};
 
@@ -16,4 +18,5 @@ public class test01 {
         System.out.println("random = " + random);
 
     }
+
 }

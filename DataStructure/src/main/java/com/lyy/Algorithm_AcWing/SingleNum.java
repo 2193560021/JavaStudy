@@ -1,4 +1,4 @@
-package com.lyy.Algorithm;
+package com.lyy.Algorithm_AcWing;
 
 public class SingleNum {
 

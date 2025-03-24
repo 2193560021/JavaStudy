@@ -1,8 +1,7 @@
-package com.lyy.Algorithm;
+package com.lyy.Algorithm_AcWing;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class SortCollections {
     public static void main(String[] args) throws Exception {
