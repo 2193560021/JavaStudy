@@ -75,6 +75,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         // 3.清理购物车商品
 //        cartService.removeByItemIds(itemIds);
+        cartClient.deleteCartItemByIds(itemIds);
 
         // 4.扣减库存
         try {
@@ -82,7 +83,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         } catch (Exception e) {
             throw new RuntimeException("库存不足！");
         }
-        cartClient.deleteCartItemByIds(itemIds);
         return order.getId();
     }
 
