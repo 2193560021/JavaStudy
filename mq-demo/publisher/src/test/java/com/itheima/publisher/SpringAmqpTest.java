@@ -67,8 +67,8 @@ class SpringAmqpTest {
 
     @Test
     public void testObjectQueue(){
-        Map<String, Object> msg = new HashMap<>();
-        msg.put("name","Jack");
+        Map<String, Object> msg = new HashMap<>(2);
+        msg.put("name","Jack123");
         msg.put("age", 21);
         rabbitTemplate.convertAndSend("object.queue", msg);
     }
