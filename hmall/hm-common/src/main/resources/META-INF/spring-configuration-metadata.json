@@ -25,7 +25,7 @@
       "name": "hm.mq.host",
       "type": "java.lang.String",
       "description": "rabbitmq的地址",
-      "defaultValue": "192.168.150.101"
+      "defaultValue": "192.168.209.128"
     },
     {
       "name": "hm.mq.port",
@@ -37,19 +37,19 @@
       "name": "hm.mq.vhost",
       "type": "java.lang.String",
       "description": "rabbitmq的virtual-host地址",
-      "defaultValue": "/hmxt"
+      "defaultValue": "/hmall"
     },
     {
       "name": "hm.mq.username",
       "type": "java.lang.String",
       "description": "rabbitmq的用户名",
-      "defaultValue": "hmxt"
+      "defaultValue": "hmall"
     },
     {
       "name": "hm.mq.password",
       "type": "java.lang.String",
       "description": "rabbitmq的密码",
-      "defaultValue": "123321"
+      "defaultValue": "123456"
     },
     {
       "name": "hm.mq.listener.retry.enable",
@@ -85,7 +85,7 @@
       "name": "hm.db.host",
       "type": "java.lang.String",
       "description": "数据库地址",
-      "defaultValue": "192.168.150.101"
+      "defaultValue": "192.168.209.128"
     },
     {
       "name": "hm.db.port",
@@ -109,7 +109,7 @@
       "name": "hm.db.pw",
       "type": "java.lang.String",
       "description": "数据库密码",
-      "defaultValue": "123"
+      "defaultValue": "123456"
     },
     {
       "name": "hm.swagger.title",

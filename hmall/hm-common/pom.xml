@@ -74,11 +74,18 @@
             <artifactId>caffeine</artifactId>
         </dependency>
         <!--AMQP依赖-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.amqp</groupId>-->
+<!--            <artifactId>spring-amqp</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+        <!--消息发送-->
         <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-amqp</artifactId>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+
         <!--Spring整合Rabbit依赖-->
         <dependency>
             <groupId>org.springframework.amqp</groupId>
@@ -86,10 +93,17 @@
             <scope>provided</scope>
         </dependency>
         <!--json处理-->
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.dataformat</groupId>-->
+<!--            <artifactId>jackson-dataformat-xml</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <scope>provided</scope>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
+
     </dependencies>
 </project>

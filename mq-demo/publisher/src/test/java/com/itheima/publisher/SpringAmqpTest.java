@@ -1,18 +1,23 @@
 package com.itheima.publisher;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Slf4j
 class SpringAmqpTest {
 
     @Autowired
@@ -71,6 +76,36 @@ class SpringAmqpTest {
         msg.put("name","Jack123");
         msg.put("age", 21);
         rabbitTemplate.convertAndSend("object.queue", msg);
+    }
+
+
+
+    @Test
+    public void testConfirmCallback() throws InterruptedException {
+        CorrelationData cd = new CorrelationData(UUID.randomUUID().toString());
+        cd.getFuture().addCallback(new ListenableFutureCallback<CorrelationData.Confirm>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                log.error("spring amqp处理确认结果异常:{}", ex);
+            }
+
+            @Override
+            public void onSuccess(CorrelationData.Confirm result) {
+                //判断是否成功
+                if (result.isAck()){
+                    log.debug("收到ConfirmCallback ack, 消息发送成功");
+                }else {
+
+                    log.debug("收到ConfirmCallback ack, 消息发送失败，reason:{}", result.getReason());
+                }
+            }
+        });
+
+        String exchangeName = "hmall.direct";
+        String message = "hello, China!";
+        rabbitTemplate.convertAndSend(exchangeName, "blue", message, cd);
+
+        Thread.sleep(100);
     }
 
 }
