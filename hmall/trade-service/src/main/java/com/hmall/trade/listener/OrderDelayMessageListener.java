@@ -1,5 +1,6 @@
 package com.hmall.trade.listener;
 
+import com.hmall.trade.constants.MQConstants;
 import com.hmall.trade.domain.po.Order;
 import com.hmall.trade.service.IOrderService;
 import lombok.RequiredArgsConstructor;
@@ -11,25 +12,30 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PayStatusListener {
+public class OrderDelayMessageListener {
 
     private final IOrderService orderService;
 
-
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = "trade.pay.success", durable = "true"),
-            exchange = @Exchange(name = "pay.direct"),
-            key = "pay.success"
+            value = @Queue(name = MQConstants.DELAY_ORDER_QUEUE_NAME),
+            exchange = @Exchange(name = MQConstants.DELAY_EXCHANGE_NAME, delayed = "true"),
+            key = MQConstants.DELAY_ORDER_KEY
     ))
-    public void listenPayStatus(Long orderId){
+    public void listenOrderDelayMessage(Long orderId){
         //查询订单
         Order order = orderService.getById(orderId);
 
-        if(order == null ||order.getStatus() != 1){
+        //检测状态
+        if (order == null || order.getStatus() != 1){
             return;
         }
+        //未支付，查询支付流水
 
-        //3.标记订单为已支付
-        orderService.markOrderPaySuccess(orderId);
+        //判断是否支付
+
+        //已支付，标记订单状态为已支付
+
+        //未支付，取消订单，恢复库存
+
     }
 }
