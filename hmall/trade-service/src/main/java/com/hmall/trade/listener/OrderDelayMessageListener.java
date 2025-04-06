@@ -1,5 +1,7 @@
 package com.hmall.trade.listener;
 
+import com.hmall.api.client.PayClient;
+import com.hmall.api.dto.PayOrderDTO;
 import com.hmall.trade.constants.MQConstants;
 import com.hmall.trade.domain.po.Order;
 import com.hmall.trade.service.IOrderService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class OrderDelayMessageListener {
 
     private final IOrderService orderService;
+    private final PayClient payClient;
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(name = MQConstants.DELAY_ORDER_QUEUE_NAME),
@@ -30,12 +33,17 @@ public class OrderDelayMessageListener {
             return;
         }
         //未支付，查询支付流水
-
+        PayOrderDTO payOrder = payClient.queryPayOrderByBizOrderNo(orderId);
         //判断是否支付
+        if (payOrder != null && payOrder.getStatus() == 3) {
+            //已支付，标记订单状态为已支付
+            orderService.markOrderPaySuccess(orderId);
+        }else {
+            //未支付，取消订单，恢复库存
+            orderService.cancelOrder(orderId);
+        }
 
-        //已支付，标记订单状态为已支付
 
-        //未支付，取消订单，恢复库存
 
     }
 }
