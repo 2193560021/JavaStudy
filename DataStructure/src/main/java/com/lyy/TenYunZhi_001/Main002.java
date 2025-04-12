@@ -36,6 +36,7 @@ public class Main002 {
 
         int i = l - 1;
         int j = r + 1;
+        String awe = "+";
 
         while(i < j){
             do i++; while (a[i] < flag);
