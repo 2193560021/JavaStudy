@@ -1,0 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-underline: none;
+}
+.el-tooltip__trigger:first-child:focus-visible {
+    outline: unset;
+}
