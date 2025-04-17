@@ -1,15 +1,15 @@
-package com.hmall.search.controller;
+package com.hmall.item.controller;
 
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.hmall.common.domain.PageDTO;
 import com.hmall.common.utils.BeanUtils;
-import com.hmall.search.domain.Constants.ElasticConstants;
-import com.hmall.search.domain.dto.ItemDTO;
-import com.hmall.search.domain.po.ItemDoc;
-import com.hmall.search.domain.query.ItemPageQuery;
-import com.hmall.search.service.IItemService;
+import com.hmall.item.domain.Constants.ElasticConstants;
+import com.hmall.item.domain.dto.ItemDTO;
+import com.hmall.item.domain.po.ItemDoc;
+import com.hmall.item.domain.query.ItemPageQuery;
+import com.hmall.item.service.IItemService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
