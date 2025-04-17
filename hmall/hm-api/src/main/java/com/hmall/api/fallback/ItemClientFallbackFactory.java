@@ -26,7 +26,11 @@ public class ItemClientFallbackFactory implements FallbackFactory<ItemClient> {
                 log.error("扣减商品失败!", cause);
                 throw new RuntimeException(cause);
 
+            }
 
+            @Override
+            public ItemDTO queryItemById(Long id) {
+                return null;
             }
         };
     }

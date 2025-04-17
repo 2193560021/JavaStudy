@@ -12,6 +12,8 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
@@ -21,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest(properties = "spring.profiles.active=local")
@@ -59,6 +62,35 @@ public class ElasticSearchTest {
         System.out.println("response = " + response);
 
         parseRes(response);
+
+    }
+
+
+    @Test
+    void testAgg() throws Exception  {
+        int pageNo = 1, pageSize = 5;
+        SearchRequest request = new SearchRequest("items");
+
+        request.source().size(0);
+
+        String brandAggName = "brandAgg";
+
+        request.source().aggregation(
+                AggregationBuilders.terms(brandAggName).field("brand").size(10)
+        );
+
+        SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+        System.out.println("response = " + response);
+
+        //解析结果
+        Terms aggregation = response.getAggregations().get(brandAggName);
+        List<? extends Terms.Bucket> buckets = aggregation.getBuckets();
+        //遍历获取
+
+        for (Terms.Bucket bucket : buckets) {
+            System.out.println("bucket.getKeyAsString() = " + bucket.getKeyAsString());
+            System.out.println("bucket.getDocCount() = " + bucket.getDocCount());
+        }
 
     }
 

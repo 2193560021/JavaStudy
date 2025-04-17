@@ -1,0 +1,15 @@
+server:
+  port: 8087
+feign:
+  okhttp:
+    enabled: true # 开启OKHttp连接池支持
+  sentinel:
+    enabled: true # 开启Feign对Sentinel的整合
+hm:
+  db:
+    database: hm-item
+    host: 192.168.209.128 # 修改为你自己的虚拟机IP地址
+    pw: 123456 # 修改为docker中的MySQL密码
+  swagger:
+    title: "黑马商城商品搜索文档"
+    package: com.hmall.search.controller
