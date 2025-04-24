@@ -82,7 +82,7 @@ public class ItemController {
                 MQConstants.ITEM_EXCHANGE_NAME,
                 MQConstants.ITEM_QUERY_KEY,
                 new ItemMQDTO(
-                        ItemPerate.REMOVE,
+                        ItemPerate.UPDATE,
                         item
                 )
         );
