@@ -23,8 +23,7 @@ import java.util.Date;
 public class ApplicationContextTest {
 
     public static void main(String[] args) throws Exception {
-
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+      ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
         UserService userService = applicationContext.getBean(UserService.class);
         System.out.println(userService);
 
