@@ -12,7 +12,6 @@ public class JuZhenZuiDuan {
                 {4, 3, 5, 2}
         };
 
-
         int n = grid.length;
         int m = grid[0].length;
 
