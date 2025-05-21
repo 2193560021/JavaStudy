@@ -1,10 +1,25 @@
 package com.lyy.DP;
 
+import java.util.Calendar;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.RunnableFuture;
+
 /**
  * 完全背包问题
  */
 public class BagAll {
     public static void main(String[] args) {
+        Thread thread = new Thread();
+        Callable callable = new Callable() {
+            @Override
+            public Object call() throws Exception {
+                return null;
+            }
+        };
+        FutureTask<Integer> f = new FutureTask<>(callable);
+        Thread thread1 = new Thread(f);
+        thread1.start();
         int[] wgt = {10,20,30,40,50};//重量
         int[] val = {50,120,150,210,240};//价值
         int cap = 50;
